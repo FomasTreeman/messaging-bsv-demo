@@ -1,0 +1,18 @@
+{
+  "schema": "bsv-app",
+  "schemaVersion": "1.0",
+  "frontend": {
+    "language": "react",
+    "sourceDirectory": "./frontend"
+  },
+  "configs": [
+    {
+      "name": "Local LARS",
+      "network": "testnet",
+      "provider": "LARS",
+      "run": [
+        "frontend"
+      ]
+    }
+  ]
+}

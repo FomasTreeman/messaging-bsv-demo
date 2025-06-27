@@ -1,0 +1,5 @@
+{
+	"dependencies": {
+		"@bsv/lars": "^1.5.2"
+	}
+}
