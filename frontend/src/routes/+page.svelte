@@ -98,6 +98,20 @@
 				<div class="wallet-connected">
 					<div class="success-icon small">✓</div>
 					<p>Wallet connected! Ready to submit messages.</p>
+					<p>Connected to: <strong>{data.walletAddress}</strong></p>
+				</div>
+
+				<div class="recipient-selector">
+					<h3>Available Recipients</h3>
+					<div class="recipients-list">
+						{#each data.recipients as recipient}
+							<div class="recipient-item">
+								<strong>{recipient.name}</strong>
+								<span class="recipient-did">{recipient.did}</span>
+							</div>
+						{/each}
+					</div>
+					<a href="/recipients" class="view-recipients-btn">View All Recipients & Messages</a>
 				</div>
 				
 				<form
@@ -111,6 +125,21 @@
 					}}
 					class="message-form"
 				>
+					<div class="form-group">
+						<label for="recipient">Send to</label>
+						<select
+							id="recipient"
+							name="recipient"
+							required
+							disabled={submitting}
+						>
+							<option value="">Select a recipient...</option>
+							{#each data.recipients as recipient}
+								<option value={recipient.did}>{recipient.name} ({recipient.did})</option>
+							{/each}
+						</select>
+					</div>
+
 					<div class="form-group">
 						<label for="message">Your Message</label>
 						<input
@@ -310,6 +339,90 @@
 
 	input::placeholder {
 		color: #a0aec0;
+	}
+
+	select {
+		width: 100%;
+		padding: 1rem;
+		border: 2px solid #e2e8f0;
+		border-radius: 12px;
+		font-size: 1rem;
+		background: #f8fafc;
+		box-sizing: border-box;
+		transition: all 0.3s ease;
+		appearance: none;
+		background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+		background-position: right 0.5rem center;
+		background-repeat: no-repeat;
+		background-size: 1.5em 1.5em;
+		padding-right: 2.5rem;
+	}
+
+	select:focus {
+		outline: none;
+		border-color: #3b82f6;
+		background: white;
+		box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+		transform: translateY(-1px);
+	}
+
+	.recipient-selector {
+		margin: 1.5rem 0;
+		padding: 1.5rem;
+		background: #f8fafc;
+		border: 1px solid #e2e8f0;
+		border-radius: 12px;
+		text-align: left;
+	}
+
+	.recipient-selector h3 {
+		margin: 0 0 1rem 0;
+		color: #2d3748;
+		font-size: 1.1rem;
+		font-weight: 600;
+	}
+
+	.recipients-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		margin-bottom: 1rem;
+	}
+
+	.recipient-item {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0.75rem;
+		background: white;
+		border: 1px solid #e2e8f0;
+		border-radius: 8px;
+		font-size: 0.9rem;
+	}
+
+	.recipient-did {
+		color: #667eea;
+		font-family: 'Courier New', monospace;
+		font-size: 0.8rem;
+	}
+
+	.view-recipients-btn {
+		display: inline-block;
+		padding: 0.75rem 1.5rem;
+		background: #3b82f6;
+		color: white;
+		text-decoration: none;
+		border-radius: 8px;
+		font-weight: 600;
+		font-size: 0.9rem;
+		transition: all 0.3s ease;
+		text-align: center;
+	}
+
+	.view-recipients-btn:hover {
+		background: #2563eb;
+		transform: translateY(-1px);
+		box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 	}
 	/* === BUTTON STYLES === */
 	.btn-primary {
@@ -548,24 +661,6 @@
 		padding: 0.75rem;
 		border-radius: 8px;
 		border-left: 3px solid #0ea5e9;
-	}
-
-	.message-footer {
-		display: flex;
-		justify-content: space-between;
-		font-size: 0.7rem;
-		margin-top: 0.5rem;
-		gap: 0.5rem;
-	}
-
-	.txid-label,
-	.output-index {
-		background: #e2e8f0;
-		color: #4a5568;
-		padding: 0.2rem 0.4rem;
-		border-radius: 4px;
-		font-family: 'Courier New', monospace;
-		font-size: 0.7rem;
 	}
 
 	.empty-state {
